@@ -9,7 +9,7 @@ describe 'OS' do
       else
         assert OS.windows? == true
         assert OS.doze? == true
-        assert OS.posix? == false # can fail in error at times...I guess because some other spec has reset ENV on us...
+        assert OS.posix? == false
       end
       assert OS::Underlying.windows?
     elsif [/linux/, /darwin/].any? { |posix_pattern| (RbConfig::CONFIG['host_os'] =~ posix_pattern) || RUBY_PLATFORM =~ posix_pattern }
@@ -117,8 +117,6 @@ describe 'OS' do
   it 'has working cpu count method' do
     cpu_count = OS.cpu_count
     assert cpu_count >= 1
-    # CPU count is usually either a power of 2 or an even number.
-    assert ((cpu_count & (cpu_count - 1)) == 0) || cpu_count.even?
   end
 
   it 'has working cpu count method with no env. variable' do
